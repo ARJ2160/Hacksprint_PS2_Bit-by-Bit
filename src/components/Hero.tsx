@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import BookSVG from '../assets/books.svg';
-import BookData from '../assets/books.json';
+// import BookSVG from '../assets/books.svg';
+// import BookData from '../assets/books.json';
 import useFetch from '../hooks/useFetch';
 
 const Hero = () => {
 
-  const [todo, setTodo] = useState([]);
 
-  useEffect(() => {
-    fetch("/hello")
-      .then((res) => res.json())
-      .then((data) => setTodo(data));
-  }, []);
   return (
     <div className='App grid grid-cols-2 h-screen p-5'>
       <div className='flex justify-center items-start flex-col pl-10 col-span-1 '>
