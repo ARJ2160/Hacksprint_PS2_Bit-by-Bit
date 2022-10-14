@@ -5,7 +5,7 @@ import useFetch from '../hooks/useFetch';
 
 const Hero = () => {
 
-  console.log(useFetch('https://flask-for-book.herokuapp.com/'));
+  console.log(useFetch('https://127.0.0.1:8000/data'));
   return (
     <div className='App grid grid-cols-2 h-screen p-5'>
       <div className='flex justify-center items-start flex-col pl-10 col-span-1 '>
