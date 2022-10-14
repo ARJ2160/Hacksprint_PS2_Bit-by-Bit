@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Apercu Pro';
+  src: url('fonts/ApercuPro-Medium.eot');
+  src: local('Apercu Pro Medium'), local('ApercuPro-Medium'),
+    url('fonts/ApercuPro-Medium.eot?#iefix') format('embedded-opentype'),
+    url('fonts/ApercuPro-Medium.woff2') format('woff2'),
+    url('fonts/ApercuPro-Medium.woff') format('woff'),
+    url('fonts/ApercuPro-Medium.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
