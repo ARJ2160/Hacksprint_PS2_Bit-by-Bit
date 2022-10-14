@@ -5,7 +5,7 @@ app = Flask(__name__)
 # with open('/Hacksprint_PS2_Bit-by-Bit/server/imp.json') as important:
 #     imp = json.load(important)['params']
 app.config['SECRET_KEY'] = 'f16bbd80d59404'
-app.config["MONGO_URI"] = "mongodb://localhost:27017/Hacksprint"
+app.config["MONGO_URI"] = "mongodb+srv://shreyas29:shreyas29@cluster0.zhrhmoj.mongodb.net/?retryWrites=true&w=majority"
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 # app.config.update(
