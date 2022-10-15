@@ -12,6 +12,6 @@ Future Works -
                 Forgot Password functionality
                 JWT Authentication
                 Payment Gateway
-Team Members - Shreyas Kulakarni
+Team Members - Shreyas Kulkarni
                Isha Phadke
                Atharva Joshi
