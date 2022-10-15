@@ -1,6 +1,6 @@
-#Hacksprint PS2 Bit By Bit
+# Hacksprint PS2 Bit By Bit
 
-We have used Redux React to build this web app on the front-end and flask for the backend.
+## We have used Redux React to build this web app on the front-end and flask for the backend.
 
 Features Added - 
                 Landing Page
