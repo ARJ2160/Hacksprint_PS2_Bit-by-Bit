@@ -1,42 +1,30 @@
 import React from 'react';
-// import Pagination from './Pagination';
 // import { ProjectCardProps } from '../../types/types';
+import {Link} from "react-router-dom"
 
-const BookCard = ({ data, key }: any): JSX.Element => {
+export const BookCard = ({ data, i }: any): JSX.Element => {
   return (
-    <div key={key}>{data?.title}</div>
-    // <div
-    //   key={card?.id}
-    //   className='max-w-md min-h-full bg-white text-black shadow-lg rounded-lg overflow-hidden my-4'
-    //   data-aos='fade-up'
-    // >
-    //   <a href={card?.projectLink} target='_blank' rel='noopener noreferrer'>
-    //     <img
-    //       className='w-full aspect-auto object-cover object-center'
-    //       src={card?.image}
-    //       width={card?.image.width}
-    //       height={card?.image.height}
-    //       loading='lazy'
-    //       alt='No image available'
-    //     />
-    //   </a>
-    //   <div className='py-4 px-4'>
-    //     <h1 className='text-2xl'>{card?.title}</h1>
-    //     <a href={card?.link} target='_blank' rel='noopener noreferrer'>
-    //       <p className='text-blue-600 my-2'>View Code</p>
-    //     </a>
-    //     <p className='py-2 text-lg'>{card?.description}</p>
-    //     <div className='mt-4 mb-8 flex flex-wrap justify-center items-center gap-2'>
-    //       {card?.tags.map((tag: string, i: number) => (
-    //         <div key={i} className='px-4 py-1 border-2 rounded-full'>
-    //           {tag}
-    //         </div>
-    //       ))}
-    //     </div>
-    //   </div>
-    //   <Pagination />
-    // </div>
+    <Link to={`${'/book/' + data?.isbn}`}>
+    <div
+      key={i}
+      className='flex justify-center flex-col p-5 transition hover:translate-y-5 ease-in duration-150 items-center h-80 bg-white text-black shadow-lg rounded-lg overflow-hidden my-4'
+    >
+      <div className='flex-1'>
+      <a href={` ${'/books/' + data?.isbn}`} target='_blank' rel='noopener noreferrer'>
+        <img
+          className='w-20 h-20 aspect-auto object-cover object-center'
+          src={data?.thumbnailUrl}
+          alt="No image available"
+        />
+      </a>
+      </div>
+      <div className='flex-1 overflow-hidden'>
+        <h1 className={`${data?.name < 10 
+          ? `lg:text-xl md:text-base` 
+          : `lg:text-xl text-xl` }`}>{data?.title}</h1>
+        <p className='py-2 text-sm'>{data?.longDescription.slice(0, 300) + "..."}</p>
+      </div>
+    </div>
+    </Link>
   );
 };
-
-export default BookCard;

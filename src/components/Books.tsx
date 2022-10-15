@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import BookCard from './BookCard.tsx';
 // import { Book } from '../types';
-import { storeBooks } from '../redux/booksSlice';
-import { useDispatch } from 'react-redux';
+// import {storeBooks} from "../redux/booksSlice"
+import { useDispatch } from 'react-redux'
+import { data } from '../assets/data.ts';
+import { BookCard } from './index.ts';
+
 export interface Books {
   id: number;
   title: string;
@@ -25,20 +27,29 @@ export const BooksPage = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        dispatch(storeBooks({ data }));
-        setBooks(books);
-      });
-    // .then(data => setBooks(data));
-  }, []);
-  if (books) {
-    return (
-      <div>
-        {books.map((x, i) => {
-          return <BookCard data={x} key={i} />;
-        })}
+        setBooks(data)
+      })
+  }, []); 
+  if(books){
+  return (
+    <div className='pt-5'>
+      <div className='flex justify-center flex-col items-center '>
+      <div className='font-bold text-4xl'>
+      I code for &#8734;
+     </div>
+      <p>{data.books_subheading}</p>
       </div>
-    );
-  } else {
-    return <h1>Still Loading....</h1>;
-  }
+    <div className='grid grid-cols-4 gap-10 border-black p-10'>
+      {books.map((x, i) => {
+        return (
+          <BookCard data={x} key={i} />
+        )
+      })}
+       
+    </div>
+    </div>
+  )
+    } else {
+      return <h1>Still Loading....</h1>
+    }
 };
