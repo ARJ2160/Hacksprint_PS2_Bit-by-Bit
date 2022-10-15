@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import signin from '../assets/signin.svg';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { signIn } from '../redux/signInSlice';
 
 interface Errors {
   email: string;
@@ -13,6 +16,8 @@ interface formValues {
 }
 
 export const SignIn = () => {
+  let navigate = useNavigate();
+  let dispatch = useDispatch()
   const [formValues, setFormValue] = useState<formValues>({
     email: '',
     password: ''
@@ -28,10 +33,9 @@ export const SignIn = () => {
 
   const validate = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    formValues: any
+    formValues: formValues
   ) => {
     e.preventDefault();
-    console.log(formValues);
     const errors: Errors = { email: '', password: '' };
     const regex =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -45,12 +49,21 @@ export const SignIn = () => {
     }
 
     //Check if there are no errors
-    if (Object.keys(errors).length === 0) {
-      setFormValue({ email: '', password: '' });
-      // fetch('/signin')
-      //   .then(res => res.json())
-      //   .then(data => setTodo(data));
-    }
+    // if (Object.values(errors).length === 0) {
+      fetch('/login',{method:"POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(formValues)}
+        )
+        .then(res => res.json())
+        .then(() => {
+          dispatch(signIn({formValues}))
+          setFormValue({ email: '', password: '' });
+          navigate("/")
+      }).catch(err => {
+        console.log(err)
+   })
+    // }
+    console.log(errors, Object.keys(errors).length);
     return errors;
   };
 

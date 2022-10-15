@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import signup from '../assets/signup.svg';
+import { useNavigate } from "react-router-dom";
 
 interface genericSignup {
   name: string;
   email: string;
   password: string;
-  phoneNo: string;
+  phone: string;
   address: string;
 }
 
 export const SignUp = () => {
+  let navigate = useNavigate();
+
   const [formValues, setFormValue] = useState<genericSignup>({
     name: '',
     email: '',
     password: '',
-    phoneNo: '',
+    phone: '',
     address: ''
   });
   const [formErrors, setFormErrors] = useState<genericSignup>({
     name: '',
     email: '',
     password: '',
-    phoneNo: '',
+    phone: '',
     address: ''
   });
 
@@ -40,7 +43,7 @@ export const SignUp = () => {
       name: '',
       email: '',
       password: '',
-      phoneNo: '',
+      phone: '',
       address: ''
     };
     console.log(formValues);
@@ -54,29 +57,44 @@ export const SignUp = () => {
     if (!formValues.name) {
       errors.name = 'Name is Required';
     }
-    if (!formValues.phoneNo) {
-      errors.phoneNo = 'Phone Number is Required';
+    if (!formValues.phone) {
+      errors.phone = 'Phone Number is Required';
     }
-    if (!formValues.password) {
-      errors.password = 'Password is Required';
-    }
+    // if (!formValues.password) {
+    //   errors.password = 'Password is Required';
+    // }
     if (!formValues.address) {
       errors.address = 'Address is Required';
     }
 
     //Check if there are no errors
-    if (Object.keys(errors).length === 0) {
-      setFormValue({
-        name: '',
+    // if (Object.keys(errors).length === 0) {
+      // setFormValue({
+      //   name: '',
+      //   email: '',
+      //   password: '',
+      //   phone: '',
+      //   address: ''
+      // });
+      fetch('/signup',
+      {method:"POST", 
+      headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify(formValues)})
+      .then(res => res.json())
+      .then(data => {
+        console.log('Success', data)
+        setFormValue({ name: '',
         email: '',
         password: '',
-        phoneNo: '',
-        address: ''
-      });
+        phone: '',
+        address: ''});
+        navigate("/")
+    })
+    .catch(err => console.log(err))
       // fetch('/signup')
       //   .then(res => res.json())
       //   .then(data => setTodo(data));
-    }
+    // }
     console.log('ERRORS', errors);
     return errors;
   };
@@ -116,7 +134,7 @@ export const SignUp = () => {
                 }`}
                 placeholder='Name'
                 value={formValues?.name}
-                onChange={handleChange}
+                onChange={e => handleChange(e)}
               />
               {formErrors.name.length > 0 && (
                 <p className='text-sm text-red-500 mt-1'>{formErrors.name}</p>
@@ -139,7 +157,7 @@ export const SignUp = () => {
                 }`}
                 placeholder='Email address'
                 value={formValues?.email}
-                onChange={handleChange}
+                onChange={e => handleChange(e)}
               />
               {formErrors.email.length > 0 && (
                 <p className='text-sm text-red-500 mt-1'>{formErrors.email}</p>
@@ -162,7 +180,7 @@ export const SignUp = () => {
                 }`}
                 placeholder='Password'
                 value={formValues?.password}
-                onChange={handleChange}
+                onChange={e => handleChange(e)}
               />
               {formErrors.password.length > 0 && (
                 <p className='text-sm text-red-500 mt-1'>
@@ -170,7 +188,7 @@ export const SignUp = () => {
                 </p>
               )}
             </div>
-            <div className='mt-5'>
+            {/* <div className='mt-5'>
               <label htmlFor='phoneNumber' className='sr-only'>
                 Phone Number
               </label>
@@ -181,20 +199,20 @@ export const SignUp = () => {
                 autoComplete='phoneNumber'
                 required
                 className={`${
-                  formErrors.phoneNo.length > 0
+                  formErrors.phone.length > 0
                     ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                     : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                 }`}
                 placeholder='Phone Number'
-                value={formValues?.phoneNo}
-                onChange={handleChange}
+                value={formValues?.phone}
+                onChange={e => handleChange(e)}
               />
-              {formErrors.phoneNo.length > 0 && (
+              {formErrors.phone.length > 0 && (
                 <p className='text-sm text-red-500 mt-1'>
-                  {formErrors.phoneNo}
+                  {formErrors.phone}
                 </p>
               )}
-            </div>
+            </div> */}
             <div className='mt-5'>
               <label htmlFor='address' className='sr-only'>
                 Address
@@ -210,8 +228,8 @@ export const SignUp = () => {
                     : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                 }`}
                 placeholder='Address'
-                value={formValues?.phoneNo}
-                onChange={handleChange}
+                value={formValues?.address}
+                onChange={e => handleChange(e)}
               />
               {formErrors.address.length > 0 && (
                 <p className='text-sm text-red-500 mt-1'>
