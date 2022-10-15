@@ -15,7 +15,7 @@
 //     initialState,
 //     reducers: {
 //         signUp: (state = initialState, { payload }) => {
-            
+
 //             const { email, password, firstName, lastName } = payload.formValues
 //             if (state.find(mail => mail.email === email)) {
 //                 flag = false

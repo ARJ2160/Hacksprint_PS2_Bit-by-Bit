@@ -1,6 +1,6 @@
 import React from 'react';
 import BookSVG from '../assets/books.svg';
-import { data } from '../assets/data';
+import { data } from '../assets/data.ts';
 
 export const Hero = () => {
   return (

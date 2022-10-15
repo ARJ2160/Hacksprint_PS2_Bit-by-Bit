@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import signin from '../assets/signin.svg';
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { signIn } from '../redux/signInSlice';
 
 interface Errors {
@@ -17,7 +17,7 @@ interface formValues {
 
 export const SignIn = () => {
   let navigate = useNavigate();
-  let dispatch = useDispatch()
+  let dispatch = useDispatch();
   const [formValues, setFormValue] = useState<formValues>({
     email: '',
     password: ''
@@ -50,18 +50,20 @@ export const SignIn = () => {
 
     //Check if there are no errors
     // if (Object.values(errors).length === 0) {
-      fetch('/login',{method:"POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formValues)}
-        )
-        .then(res => res.json())
-        .then(() => {
-          dispatch(signIn({formValues}))
-          setFormValue({ email: '', password: '' });
-          navigate("/")
-      }).catch(err => {
-        console.log(err)
-   })
+    fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formValues)
+    })
+      .then(res => res.json())
+      .then(() => {
+        dispatch(signIn({ formValues }));
+        setFormValue({ email: '', password: '' });
+        navigate('/');
+      })
+      .catch(err => {
+        console.log(err);
+      });
     // }
     console.log(errors, Object.keys(errors).length);
     return errors;
@@ -110,7 +112,9 @@ export const SignIn = () => {
                   onChange={e => handleChange(e)}
                 />
                 {formErrors.email.length > 0 && (
-                  <p className='text-sm text-red-500 mt-1'>{formErrors.email}</p>
+                  <p className='text-sm text-red-500 mt-1'>
+                    {formErrors.email}
+                  </p>
                 )}
               </div>
               <div className='mb-5'>
@@ -135,7 +139,9 @@ export const SignIn = () => {
                   onChange={e => handleChange(e)}
                 />
                 {formErrors.password.length > 0 && (
-                  <p className='text-sm text-red-500 mt-1'>{formErrors.password}</p>
+                  <p className='text-sm text-red-500 mt-1'>
+                    {formErrors.password}
+                  </p>
                 )}
               </div>
             </div>

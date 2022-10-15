@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux'
-import booksSlice from './booksSlice'
-import signInSlice from './signInSlice'
+import { combineReducers } from 'redux';
+import booksSlice from './booksSlice';
+import signInSlice from './signInSlice';
 
 const rootReducer = combineReducers({
-    signIn: signInSlice,
-    books: booksSlice
-})
+  signIn: signInSlice,
+  books: booksSlice
+});
 
-export default rootReducer
+export default rootReducer;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import signup from '../assets/signup.svg';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 interface genericSignup {
   name: string;
@@ -69,31 +69,34 @@ export const SignUp = () => {
 
     //Check if there are no errors
     // if (Object.keys(errors).length === 0) {
-      // setFormValue({
-      //   name: '',
-      //   email: '',
-      //   password: '',
-      //   phone: '',
-      //   address: ''
-      // });
-      fetch('/signup',
-      {method:"POST", 
-      headers: {'Content-Type': 'application/json'}, 
-      body: JSON.stringify(formValues)})
+    // setFormValue({
+    //   name: '',
+    //   email: '',
+    //   password: '',
+    //   phone: '',
+    //   address: ''
+    // });
+    fetch('/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formValues)
+    })
       .then(res => res.json())
       .then(data => {
-        console.log('Success', data)
-        setFormValue({ name: '',
-        email: '',
-        password: '',
-        phone: '',
-        address: ''});
-        navigate("/")
-    })
-    .catch(err => console.log(err))
-      // fetch('/signup')
-      //   .then(res => res.json())
-      //   .then(data => setTodo(data));
+        console.log('Success', data);
+        setFormValue({
+          name: '',
+          email: '',
+          password: '',
+          phone: '',
+          address: ''
+        });
+        navigate('/');
+      })
+      .catch(err => console.log(err));
+    // fetch('/signup')
+    //   .then(res => res.json())
+    //   .then(data => setTodo(data));
     // }
     console.log('ERRORS', errors);
     return errors;
