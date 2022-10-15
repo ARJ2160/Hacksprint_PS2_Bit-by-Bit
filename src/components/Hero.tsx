@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-// import BookSVG from '../assets/books.svg';
-// import BookData from '../assets/books.json';
-import useFetch from '../hooks/useFetch';
+import React from 'react';
+import BookSVG from '../assets/books.svg';
 
-const Hero = () => {
-
-
+export const Hero = () => {
   return (
-    <div className='App grid grid-cols-2 h-screen p-5'>
+    <div className='App grid grid-cols-2 h-screen p-5 bg-bgColor'>
       <div className='flex justify-center items-start flex-col pl-10 col-span-1 '>
         <div className='font-medium lg:text-5xl md:text-4xl text-3xl mb-5 leading-5 tracking-wider  text-pinkRed uppercase'>
           The Library thats always open. Shop Online with us
@@ -23,5 +19,3 @@ const Hero = () => {
     </div>
   );
 };
-
-export default Hero;

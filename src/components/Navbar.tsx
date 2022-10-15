@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+export const Navbar = () => {
   return (
     <nav className='bg-bgColor text-black'>
       <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
@@ -28,7 +29,6 @@ const Navbar = () => {
                   d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
                 />
               </svg>
-
               <svg
                 className='hidden h-6 w-6'
                 xmlns='http://www.w3.org/2000/svg'
@@ -50,34 +50,36 @@ const Navbar = () => {
             <div className='flex flex-shrink-0 items-center'></div>
             <div className='hidden sm:ml-6 sm:block'>
               <div className='flex space-x-4'>
-                <a
-                  href='#'
-                  className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
-                  aria-current='page'
+                <Link
+                  to='/'
+                  className='hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
                 >
-                  Dashboard
-                </a>
-
-                <a
-                  href='#'
+                  Home
+                </Link>
+                <Link
+                  to='/books'
                   className='hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
                 >
                   Books
-                </a>
-
-                <a
-                  href='#'
+                </Link>
+                <Link
+                  to='/#about-us'
                   className='hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
                 >
                   About Us
-                </a>
-
-                <a
-                  href='#'
+                </Link>
+                <Link
+                  to='/signin'
                   className='hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
                 >
-                  Baghu nantar
-                </a>
+                  Sign In
+                </Link>
+                <Link
+                  to='/signup'
+                  className='hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+                >
+                  Sign Up
+                </Link>
               </div>
             </div>
           </div>
@@ -160,20 +162,3 @@ const Navbar = () => {
     </nav>
   );
 };
-
-export default Navbar;
-
-{
-  /* <img
-                className='block h-8 w-auto lg:hidden'
-                src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
-                alt='Your Company'
-              /> */
-}
-{
-  /* <img
-                className='hidden h-8 w-auto lg:block'
-                src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
-                alt='Your Company'
-              /> */
-}
