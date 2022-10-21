@@ -21,7 +21,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = imp['account']
 app.config['MAIL_PASSWORD'] = imp['password']
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+# cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 bcrypt = Bcrypt(app)
