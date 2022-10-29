@@ -1,24 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { booksType } from "../pages/books";
+import { createSlice } from '@reduxjs/toolkit';
+import { booksType } from '../pages/books';
 
 const initialState: booksType[] = [
   {
     id: 0,
-    title: "",
-    ISBN: "",
+    title: '',
+    ISBN: '',
     pageCount: 0,
     publishedDate: new Date(),
-    thumbnailUrl: "",
-    longDescription: "",
-    status: "",
+    thumbnailUrl: '',
+    longDescription: '',
+    status: '',
     authors: [],
     categories: [],
-    price: 0,
-  },
+    price: 0
+  }
 ];
 
 const booksSlice = createSlice({
-  name: "books",
+  name: 'books',
   initialState,
   reducers: {
     storeBooks: (state, { payload }): any => {
@@ -32,7 +32,7 @@ const booksSlice = createSlice({
         status,
         authors,
         categories,
-        price,
+        price
       } = payload.formValues;
       return [
         ...state,
@@ -46,11 +46,11 @@ const booksSlice = createSlice({
           status,
           authors,
           categories,
-          price,
-        },
+          price
+        }
       ];
-    },
-  },
+    }
+  }
 });
 
 export const { storeBooks } = booksSlice.actions;

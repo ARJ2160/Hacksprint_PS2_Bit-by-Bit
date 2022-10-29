@@ -1,4 +1,4 @@
-import { Navbar } from "./index";
+import { Navbar } from './index';
 
 export default function Layout({ children }: React.PropsWithChildren<{}>) {
   return (

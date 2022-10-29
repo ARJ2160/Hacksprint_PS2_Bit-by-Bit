@@ -1,16 +1,16 @@
-import { Errors, formValues } from "../pages/signin";
-import { createSlice } from "@reduxjs/toolkit";
+import { Errors, formValues } from '../pages/signin';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: formValues[] = [
   {
-    email: "",
-    password: "",
-  },
+    email: '',
+    password: ''
+  }
 ];
 const errors: Errors[] = [];
 
 const signInSlice = createSlice({
-  name: "SignIn",
+  name: 'SignIn',
   initialState,
   reducers: {
     signIn: (state, { payload }): any => {
@@ -18,11 +18,11 @@ const signInSlice = createSlice({
       return [
         {
           email,
-          password,
-        },
+          password
+        }
       ];
-    },
-  },
+    }
+  }
 });
 
 export const { signIn } = signInSlice.actions;
