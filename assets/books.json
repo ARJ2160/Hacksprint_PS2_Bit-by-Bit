@@ -1,0 +1,27 @@
+[
+  {
+    "bookAuthor": "Drew Vincent",
+    "text": "Morbi quis",
+    "currency": "$47.71"
+  },
+  {
+    "bookAuthor": "Reagan Dodson",
+    "text": "vel, mauris.",
+    "currency": "$15.26"
+  },
+  {
+    "bookAuthor": "Victoria Carver",
+    "text": "malesuada vel,",
+    "currency": "$31.99"
+  },
+  {
+    "bookAuthor": "Tara York",
+    "text": "Sed neque.",
+    "currency": "$19.68"
+  },
+  {
+    "bookAuthor": "Ivana Morgan",
+    "text": "imperdiet ullamcorper.",
+    "currency": "$74.56"
+  }
+]
