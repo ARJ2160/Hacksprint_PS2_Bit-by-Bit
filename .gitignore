@@ -36,3 +36,8 @@ yarn-error.log*
 next-env.d.ts
 
 .vscode
+/server/flask/imp.json
+/server/flask/pyvenv.cfg
+/server/flask/Scripts
+/server/flask/Lib
+/server/flask/requirements.txt
