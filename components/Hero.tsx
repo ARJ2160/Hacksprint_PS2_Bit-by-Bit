@@ -1,8 +1,9 @@
+import React from 'react';
 import Image from 'next/image';
-import BookSVG from '../../assets/books.svg';
-import { data } from '../../assets/data';
+import BookSVG from '../assets/books.svg';
+import { data } from '../assets/data';
 
-export const Hero = () => {
+export const Hero = (): JSX.Element => {
   return (
     <div className='App grid grid-cols-2 h-screen p-5 bg-bgColor'>
       <div className='flex justify-center items-start flex-col pl-10 col-span-1 '>

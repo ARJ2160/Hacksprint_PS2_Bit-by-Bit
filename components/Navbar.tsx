@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
-import navIcon from '../assets/navIcon.png';
+// import navIcon from '../assets/navIcon.png';
 
-export const Navbar = () => {
+export const Navbar = (): JSX.Element => {
   return (
     <nav className='bg-bgColor text-black'>
       <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>

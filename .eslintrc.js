@@ -11,7 +11,14 @@ module.exports = {
     project: './tsconfig.json'
   },
   plugins: ['react'],
-  rules: {},
+  rules: {
+    '@typescript-eslint/restrict-plus-operands': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
+    '@typescript-eslint/promise-function-async': 'off',
+    '@typescript-eslint/no-unused-vars': 'off'
+  },
   settings: {
     react: {
       version: 'detect'

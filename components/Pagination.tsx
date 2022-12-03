@@ -1,7 +1,7 @@
 // import * as React from 'react';
 // // import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 
-// export const Pagination = ({length}: number) => {
+// export const Pagination = ({length}: number): JSX.Element => {
 //   return (
 //     <div className='flex items-center justify-between border-t  bg-white px-4 py-3 sm:px-6 border-red-600'>
 //       <div className='flex flex-1 justify-between sm:hidden'>
@@ -95,7 +95,7 @@
 
 import React from 'react';
 
-const Pagination = () => {
+const Pagination = (): JSX.Element => {
   return <div></div>;
 };
 

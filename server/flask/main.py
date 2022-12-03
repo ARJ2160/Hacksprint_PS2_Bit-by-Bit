@@ -32,6 +32,10 @@ mail = Mail(app)
 client=MongoClient(connection_string,connect=True)
 db=client['Flask_book_system']
 
+@app.route("/")
+def hi():
+    return "Hello"
+
 @app.route("/hello")
 def check():
     return jsonify(db.flask_login.find().next())

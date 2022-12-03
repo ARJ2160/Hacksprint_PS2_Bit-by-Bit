@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useGlobalContext } from '../context';
 // import Wishlist from "../assets/navbar-icons/wishlist.svg"
-import { useState } from 'react';
 
-export const BookDesc = () => {
+export const BookDesc = (): JSX.Element => {
   // const { increase, decrease, getTotals } = useGlobalContext();
   // const [productAmount, setProductAmount] = useState(1)
   // let id = useParams();
-  // console.log(id);
   // id = parseInt(id, 10);
+  const id = 10;
   const [bookDesc, setBookDesc] = useState<any>();
   const [count, setCount] = useState(1);
 
-  // useEffect(() => {
-  //   fetch(`${"/book/" + id.isbn}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setBookDesc(data);
-  //     });
-  // }, []);
+  useEffect(() => {
+    // fetch(`${"/book/" + id.isbn}`)
+    fetch(`${'/book/' + id}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setBookDesc(data);
+      });
+  }, []);
 
   if (bookDesc) {
     return (

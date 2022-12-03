@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { LockOpenIcon } from '@heroicons/react/20/solid';
 import signInSVG from '../assets/signin.svg';
-import { useDispatch } from 'react-redux';
-import { signIn } from '../redux/signInSlice';
+// import { useDispatch } from 'react-redux';
+// import { signIn } from '../redux/signInSlice';
 import Image from 'next/image';
 
 export interface Errors {
@@ -11,8 +11,10 @@ export interface Errors {
 }
 
 export interface formValues extends Errors {}
+const EMAIL_REGEX =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const signin = () => {
+const signin = (): JSX.Element => {
   // let navigate = useNavigate();
   // let dispatch = useDispatch();
   const [formValues, setFormValue] = useState<formValues>({
@@ -34,35 +36,35 @@ const signin = () => {
   ) => {
     e.preventDefault();
     const errors: Errors = { email: '', password: '' };
-    const regex =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     if (!formValues.email) {
       errors.email = 'Email is Required';
-    } else if (!regex.test(formValues.email)) {
+    } else if (!EMAIL_REGEX.test(formValues.email)) {
       errors.email = 'Enter valid Email';
     }
     if (!formValues.password) {
       errors.password = 'Password is Required';
     }
+    console.log(formValues);
 
-    //Check if there are no errors
-    // if (Object.values(errors).length === 0) {
-    fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formValues)
-    })
-      .then(res => res.json())
-      .then(() => {
-        // dispatch(signIn({ formValues }));
-        setFormValue({ email: '', password: '' });
-        // navigate('/');
+    // Check if there are no errors
+    if (Object.values(errors).every(x => x === '')) {
+      fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formValues)
       })
-      .catch(err => {
-        console.log(err);
-      });
-    // }
-    console.log(errors, Object.keys(errors).length);
+        .then(res => res.json())
+        .then(() => {
+          // dispatch(signIn({ formValues }));
+          setFormValue({ email: '', password: '' });
+          console.log('passed');
+          // navigate('/');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
     return errors;
   };
 
@@ -163,7 +165,7 @@ const signin = () => {
                 type='submit'
                 className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 onClick={e => {
-                  setFormErrors(validate(e, formValues));
+                  validate(e, formValues);
                 }}
               >
                 <span className='absolute inset-y-0 left-0 flex items-center pl-3'>

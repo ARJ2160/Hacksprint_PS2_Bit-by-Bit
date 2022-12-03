@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import {storeBooks} from "../redux/booksSlice"
 // import { useDispatch } from "react-redux";
 import { data } from '../assets/data';
-import { BookCard } from './components/index';
+import { BookCard } from '../components/index';
 
 export interface booksType {
   id: number;
@@ -21,15 +21,17 @@ export interface booksType {
 const Books = (): JSX.Element => {
   // let dispatch = useDispatch();
   const [books, setBooks] = useState([]);
+
   useEffect(() => {
-    fetch('/books')
+    fetch('http://127.0.0.1:8000/books')
       .then(res => res.json())
       .then(data => {
         console.log(data);
         setBooks(data);
       });
   }, []);
-  if (books) {
+
+  if (books.length > 0) {
     return (
       <div className='pt-5'>
         <div className='flex justify-center flex-col items-center '>

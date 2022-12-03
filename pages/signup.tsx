@@ -1,6 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import signUpSVG from '../assets/signup.svg';
 
 interface genericSignup {
@@ -11,7 +11,7 @@ interface genericSignup {
   address: string;
 }
 
-const signup = () => {
+const signup = (): JSX.Element => {
   // let navigate = useNavigate();
 
   const [formValues, setFormValue] = useState<genericSignup>({
@@ -60,14 +60,14 @@ const signup = () => {
     if (!formValues.phone) {
       errors.phone = 'Phone Number is Required';
     }
-    // if (!formValues.password) {
-    //   errors.password = 'Password is Required';
-    // }
+    if (!formValues.password) {
+      errors.password = 'Password is Required';
+    }
     if (!formValues.address) {
       errors.address = 'Address is Required';
     }
 
-    //Check if there are no errors
+    // Check if there are no errors
     // if (Object.keys(errors).length === 0) {
     // setFormValue({
     //   name: '',
