@@ -3,27 +3,15 @@ import React, { useEffect, useState } from 'react';
 // import { useDispatch } from "react-redux";
 import { data } from '../assets/data';
 import { BookCard } from '../components/index';
-
-export interface booksType {
-  id: number;
-  title: string;
-  ISBN?: string;
-  pageCount?: number;
-  publishedDate?: Date;
-  thumbnailUrl?: string;
-  longDescription?: string;
-  status?: string;
-  authors?: string[];
-  categories?: string[];
-  price?: number;
-}
+import CircularProgress from '@mui/material/CircularProgress';
+import { Box } from '@mui/material';
+import { booksType } from '../types';
 
 const Books = (): JSX.Element => {
-  // let dispatch = useDispatch();
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<booksType[]>([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/books')
+    fetch('http://localhost:5000/books')
       .then(res => res.json())
       .then(data => {
         console.log(data);
@@ -46,7 +34,11 @@ const Books = (): JSX.Element => {
       </div>
     );
   } else {
-    return <h1>Still Loading....</h1>;
+    return (
+      <Box className='h-screen flex justify-center items-center flex-column'>
+        <CircularProgress />
+      </Box>
+    );
   }
 };
 

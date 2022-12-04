@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { booksType } from '../pages/books';
+import { booksType } from '../types';
 
 const initialState: booksType[] = [
   {

@@ -1,5 +1,5 @@
-import { Errors, formValues } from '../pages/signin';
 import { createSlice } from '@reduxjs/toolkit';
+import { Errors, formValues } from '../types';
 
 const initialState: formValues[] = [
   {

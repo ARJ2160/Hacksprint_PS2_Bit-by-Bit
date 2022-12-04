@@ -2,14 +2,7 @@ import { LockClosedIcon } from '@heroicons/react/20/solid';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import signUpSVG from '../assets/signup.svg';
-
-interface genericSignup {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  address: string;
-}
+import { genericSignup } from '../types';
 
 const signup = (): JSX.Element => {
   // let navigate = useNavigate();

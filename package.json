@@ -11,12 +11,13 @@
     "check-types": "tsc --pretty --noEmit",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "pre-commit": "pnpm check-types && pnpm format && pnpm check-format && git add -A"
+    "pre-commit": "pnpm check-types && pnpm format && pnpm check-format && pnpm build && git add -A"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@heroicons/react": "^2.0.12",
+    "@mui/joy": "5.0.0-alpha.56",
     "@mui/material": "^5.10.11",
     "@reduxjs/toolkit": "^1.8.6",
     "next": "13.0.0",

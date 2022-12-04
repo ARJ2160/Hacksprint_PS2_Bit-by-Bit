@@ -71,6 +71,7 @@ def login():
       return jsonify(incorrect)
 
 @app.route('/signup',methods=['GET','POST'])
+@cross_origin()
 def sigup():
   my_val=(json.loads(request.data.decode('utf-8')))
   if(db.signup.find_one({'email': my_val['email']})):
@@ -89,6 +90,7 @@ def sigup():
     return (jsonify(account))
 
 @app.route('/forget-pass',methods=['GET','POST'])
+@cross_origin()
 def forgetpass():
   my_val=request.form.get('email')
   print(my_val)#change this later
@@ -109,6 +111,7 @@ def forgetpass():
       return ("Wrong verification!!")
 
 @app.route('/password-change',methods=['GET','POST'])
+@cross_origin()
 def paswword_change():
   if request.method=='POST':
     if(db.signup.find({"verification":request.form.get('verification')})):
@@ -120,16 +123,19 @@ def paswword_change():
       return ('Wrong Verification!')
 
 @app.route('/book/<isbn>',methods=['POST', 'GET'])
+@cross_origin()
 def isbn_display(isbn):
   my_val=db.books.find_one({"isbn":isbn})
-  print(my_val)
+  print(my_val, isbn)
   return my_val
 
 @app.route('/admin',methods=['GET','POST'])
+@cross_origin()
 def admin():
   pass
 
 @app.route('/books',methods=['GET','POST'])
+@cross_origin()
 def books():
   store=[]
   for post in db.books.find({"longDescription":{"$exists":"true"}}):

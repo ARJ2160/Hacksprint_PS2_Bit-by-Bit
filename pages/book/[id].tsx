@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
-// import { useGlobalContext } from '../context';
 // import Wishlist from "../assets/navbar-icons/wishlist.svg"
+import { useRouter } from 'next/router';
+import { Box, Button, CircularProgress } from '@mui/material';
+// import Button from '@mui/joy/Button';
+import Image from 'next/image';
 
 export const BookDesc = (): JSX.Element => {
-  // const { increase, decrease, getTotals } = useGlobalContext();
-  // const [productAmount, setProductAmount] = useState(1)
-  // let id = useParams();
-  // id = parseInt(id, 10);
-  const id = 10;
+  const router = useRouter();
+  const { id } = router.query;
+  console.log(id);
   const [bookDesc, setBookDesc] = useState<any>();
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    // fetch(`${"/book/" + id.isbn}`)
-    fetch(`${'/book/' + id}`)
+    fetch('http://localhost:5000/book/' + `${id}`)
       .then(res => res.json())
       .then(data => {
         console.log(data);
         setBookDesc(data);
-      });
+      })
+      .catch(err => console.log(err));
   }, []);
 
   if (bookDesc) {
@@ -26,18 +27,24 @@ export const BookDesc = (): JSX.Element => {
       <section className='text-gray-700 overflow-hidden bg-white'>
         <div className='container px-5 py-24 mx-auto'>
           <div className='lg:w-4/5 mx-auto flex flex-wrap' key={bookDesc._id}>
+            {/* <Image
+              width={500}
+              height={700} */}
             <img
-              alt='ecommerce'
+              alt={bookDesc.title}
               className='lg:w-1/2 w-full object-center rounded border border-gray-200'
               src={bookDesc.thumbnailUrl}
             />
             <div className='lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0'>
               <h2 className='text-sm text-gray-500 tracking-widest mb-5'>
-                Home/{bookDesc.title}
+                Home/{bookDesc.categories}/{bookDesc.title}
               </h2>
-              <h1 className='text-gray-900 text-3xl title-font mb-5'>
-                {bookDesc.title}
-              </h1>
+              <div className='mb-5'>
+                <h1 className='text-gray-900 text-3xl title-font mb-1'>
+                  {bookDesc.title} by
+                </h1>
+                <h3 className=''>{bookDesc.authors}</h3>
+              </div>
               <div className='flex mb-4'>
                 <span className='flex items-center'>
                   <svg
@@ -103,25 +110,33 @@ export const BookDesc = (): JSX.Element => {
                 </span>
               </div>
               <div className='grid grid-cols-3 gap-8 py-5 items-center'>
-                <div className='product-amount col-span-1 flex justify-around items-center border-2 border-black'>
-                  <div className='decrease align-left text-2xl border-r-2 border-black px-2'>
-                    <button
+                <div className='col-span-1 grid grid-cols-3 place-items-center'>
+                  <div className='text-xl col-span-1 flex justify-center items-center'>
+                    <Button
                       onClick={() => {
-                        setCount(count - 1);
+                        count > 0 && setCount(count - 1);
                       }}
+                      value={'-'}
+                      className='border-0 hover:border-0 bg-red-700 hover:bg-red-500 text-white'
+                      variant='contained'
+                      color='error'
                     >
-                      -
-                    </button>
+                      <span>-</span>
+                    </Button>
                   </div>
-                  <div className='amount col-span-1 text-xl px-4'>{count}</div>
-                  <div className='increase text-2xl border-l-2 border-black px-2'>
-                    <button
+                  <div className='col-span-1 text-xl px-4'>{count}</div>
+                  <div className='text-xl col-span-1 flex justify-center items-center'>
+                    <Button
                       onClick={() => {
                         setCount(count + 1);
                       }}
+                      className='border-0 hover:border-0 bg-green-700 hover:bg-green-500 text-white'
+                      value={'+'}
+                      variant='outlined'
+                      color='success'
                     >
-                      +
-                    </button>
+                      <span>+</span>
+                    </Button>
                   </div>
                 </div>
                 <div className='add-btn col-span-1'>
@@ -154,6 +169,12 @@ export const BookDesc = (): JSX.Element => {
       </section>
     );
   } else {
-    return <h1>Still Loading....</h1>;
+    return (
+      <Box className='h-screen flex justify-center items-center flex-column'>
+        <CircularProgress />
+      </Box>
+    );
   }
 };
+
+export default BookDesc;

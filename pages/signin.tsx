@@ -4,13 +4,8 @@ import signInSVG from '../assets/signin.svg';
 // import { useDispatch } from 'react-redux';
 // import { signIn } from '../redux/signInSlice';
 import Image from 'next/image';
+import { Errors, formValues } from '../types';
 
-export interface Errors {
-  email: string;
-  password: string;
-}
-
-export interface formValues extends Errors {}
 const EMAIL_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
