@@ -11,6 +11,10 @@ const nextConfig = {
         pathname: '/s3.amazonaws.com/**'
       }
     ]
+  },
+  env: {
+    MONGODB_CONNECTION_URL:
+      'mongodb+srv://shreyas29:shreyas29@cluster0.xymuhzw.mongodb.net/test'
   }
 };
 

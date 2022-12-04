@@ -12,6 +12,10 @@ export interface booksType {
   price?: number;
 }
 
+export interface forgotPassword {
+  email: string;
+  phone: string;
+}
 export interface Errors {
   email: string;
   password: string;

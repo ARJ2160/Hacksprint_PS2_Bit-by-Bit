@@ -1,5 +1,7 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
+import { Input, InputLabel, TextareaAutosize } from '@mui/material';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import signUpSVG from '../assets/signup.svg';
 import { genericSignup } from '../types';
@@ -50,6 +52,9 @@ const signup = (): JSX.Element => {
     if (!formValues.name) {
       errors.name = 'Name is Required';
     }
+    if (formValues.phone.length < 10 || !parseInt(formValues.phone)) {
+      errors.phone = 'Phone Number is Invalid';
+    }
     if (!formValues.phone) {
       errors.phone = 'Phone Number is Required';
     }
@@ -59,40 +64,53 @@ const signup = (): JSX.Element => {
     if (!formValues.address) {
       errors.address = 'Address is Required';
     }
-
     // Check if there are no errors
-    // if (Object.keys(errors).length === 0) {
-    // setFormValue({
-    //   name: '',
-    //   email: '',
-    //   password: '',
-    //   phone: '',
-    //   address: ''
-    // });
-    fetch('/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formValues)
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log('Success', data);
-        setFormValue({
-          name: '',
-          email: '',
-          password: '',
-          phone: '',
-          address: ''
-        });
-        // navigate('/');
+    if (Object.values(errors).every(x => x === null || x === '')) {
+      console.log('ALL CLEAR', JSON.stringify(formValues));
+      setFormValue({
+        name: '',
+        email: '',
+        password: '',
+        phone: '',
+        address: ''
+      });
+      fetch('https://localhost:5000/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formValues)
       })
-      .catch(err => console.log(err));
-    // fetch('/signup')
+        .then(res => console.log(res))
+        // .then(data => {
+        //   console.log('Success', data);
+        //   setFormValue({
+        //     name: '',
+        //     email: '',
+        //     password: '',
+        //     phone: '',
+        //     address: ''
+        //   });
+        // })
+        .catch(err => console.log(err));
+    }
+    // fetch('http://localhost:5000/signup', {
+    //   method: 'POST',
+    //   mode: 'no-cors',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(formValues)
+    // })
     //   .then(res => res.json())
-    //   .then(data => setTodo(data));
-    // }
+    //   .catch(err => console.log(err));
     console.log('ERRORS', errors);
     return errors;
+  };
+
+  const storeInSession = () => {
+    sessionStorage.setItem('name', formValues.name);
+    sessionStorage.setItem('email', formValues.email);
+    sessionStorage.setItem('phone', formValues.phone);
+    sessionStorage.setItem('address', formValues.address);
   };
 
   return (
@@ -100,9 +118,11 @@ const signup = (): JSX.Element => {
       <div className='w-full max-w-md space-y-8'>
         <div>
           <Image
+            width={signUpSVG.width}
+            height={signUpSVG.height}
             className='mx-auto h-20 w-20'
             src={signUpSVG}
-            alt='Your Company'
+            alt='Sign Up'
           />
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
             Sign up to your account
@@ -117,11 +137,11 @@ const signup = (): JSX.Element => {
         <form className='mt-8 space-y-6'>
           <input type='hidden' name='remember' defaultValue='true' />
           <div className='rounded-md shadow-sm'>
-            <div className='mb-5'>
+            <div className='mt-5'>
               <label htmlFor='name' className='sr-only'>
                 Name
               </label>
-              <input
+              <Input
                 id='name'
                 name='name'
                 type='name'
@@ -129,22 +149,25 @@ const signup = (): JSX.Element => {
                 required
                 className={`${
                   formErrors.name.length > 0
-                    ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                    : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                    ? 'input-style error-input'
+                    : 'input-style input'
                 }`}
                 placeholder='Name'
                 value={formValues?.name}
-                onChange={e => handleChange(e)}
+                onChange={e => {
+                  formErrors.name = '';
+                  handleChange(e);
+                }}
               />
-              {formErrors.name.length > 0 && (
-                <p className='text-sm text-red-500 mt-1'>{formErrors.name}</p>
-              )}
+              <InputLabel className='text-sm text-red-500' shrink>
+                {formErrors.name}
+              </InputLabel>
             </div>
-            <div className='space-y-4'>
+            <div className='my-5'>
               <label htmlFor='email-address' className='sr-only'>
                 Email address
               </label>
-              <input
+              <Input
                 id='email-address'
                 name='email'
                 type='email'
@@ -152,22 +175,25 @@ const signup = (): JSX.Element => {
                 required
                 className={`${
                   formErrors.email.length > 0
-                    ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                    : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                    ? 'input-style error-input'
+                    : 'input-style input'
                 }`}
                 placeholder='Email address'
                 value={formValues?.email}
-                onChange={e => handleChange(e)}
+                onChange={e => {
+                  formErrors.email = '';
+                  handleChange(e);
+                }}
               />
-              {formErrors.email.length > 0 && (
-                <p className='text-sm text-red-500 mt-1'>{formErrors.email}</p>
-              )}
+              <InputLabel className='text-sm text-red-500' shrink>
+                {formErrors.email}
+              </InputLabel>
             </div>
-            <div className='mt-5'>
+            <div className='my-5'>
               <label htmlFor='phoneNumber' className='sr-only'>
                 Phone Number
               </label>
-              <input
+              <Input
                 id='password'
                 name='password'
                 type={`${formErrors.password.length > 0 ? 'text' : 'password'}`}
@@ -175,67 +201,68 @@ const signup = (): JSX.Element => {
                 required
                 className={`${
                   formErrors.password.length > 0
-                    ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                    : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                    ? 'input-style error-input'
+                    : 'input-style input'
                 }`}
                 placeholder='Password'
                 value={formValues?.password}
-                onChange={e => handleChange(e)}
+                onChange={e => {
+                  formErrors.password = '';
+                  handleChange(e);
+                }}
               />
-              {formErrors.password.length > 0 && (
-                <p className='text-sm text-red-500 mt-1'>
-                  {formErrors.password}
-                </p>
-              )}
+              <InputLabel className='text-sm text-red-500' shrink>
+                {formErrors.password}
+              </InputLabel>
             </div>
-            {/* <div className='mt-5'>
+            <div className='my-5'>
               <label htmlFor='phoneNumber' className='sr-only'>
                 Phone Number
               </label>
-              <input
-                id='phoneNumber'
-                name='phoneNumber'
-                type='phoneNumber'
-                autoComplete='phoneNumber'
+              <Input
+                id='phone'
+                name='phone'
+                type='string'
+                autoComplete='phone'
                 required
                 className={`${
                   formErrors.phone.length > 0
-                    ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                    : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                    ? 'input-style error-input'
+                    : 'input-style input'
                 }`}
                 placeholder='Phone Number'
                 value={formValues?.phone}
-                onChange={e => handleChange(e)}
+                onChange={e => {
+                  console.log(e);
+                  formErrors.phone = '';
+                  handleChange(e);
+                }}
               />
-              {formErrors.phone.length > 0 && (
-                <p className='text-sm text-red-500 mt-1'>
-                  {formErrors.phone}
-                </p>
-              )}
-            </div> */}
-            <div className='mt-5'>
+              <InputLabel className='text-sm text-red-500' shrink>
+                {formErrors.phone}
+              </InputLabel>
+            </div>
+            <div className='my-5'>
               <label htmlFor='address' className='sr-only'>
                 Address
               </label>
-              <textarea
+              <TextareaAutosize
+                aria-label='empty textarea'
+                placeholder='Address'
+                required
+                autoComplete='address'
                 id='address'
                 name='address'
-                autoComplete='address'
-                required
-                className={`${
-                  formErrors.address.length > 0
-                    ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                    : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                }`}
-                placeholder='Address'
                 value={formValues?.address}
-                onChange={e => handleChange(e)}
+                onChange={e => {
+                  formErrors.address = '';
+                  handleChange(e);
+                }}
+                className='input-style'
               />
-              {formErrors.address.length > 0 && (
-                <p className='text-sm text-red-500 mt-1'>
-                  {formErrors.address}
-                </p>
-              )}
+              <InputLabel className='text-sm text-red-500' shrink>
+                {formErrors.address}
+              </InputLabel>
             </div>
           </div>
           <div className='flex items-center justify-between'>
@@ -249,21 +276,21 @@ const signup = (): JSX.Element => {
               <label
                 htmlFor='remember-me'
                 className='ml-2 block text-sm text-gray-900'
+                onClick={storeInSession}
               >
                 Remember me
               </label>
             </div>
 
             <div className='text-sm'>
-              <a
-                href='#'
+              <Link
+                href='/forgot-pass'
                 className='font-medium text-indigo-600 hover:text-indigo-500'
               >
                 Forgot your password?
-              </a>
+              </Link>
             </div>
           </div>
-
           <div>
             <button
               type='submit'

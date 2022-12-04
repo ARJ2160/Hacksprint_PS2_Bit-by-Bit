@@ -32,10 +32,6 @@ mail = Mail(app)
 client=MongoClient(connection_string,connect=True)
 db=client['Flask_book_system']
 
-@app.route("/")
-def hi():
-    return "Hello"
-
 @app.route("/hello")
 def check():
     return jsonify(db.flask_login.find().next())
@@ -72,7 +68,7 @@ def login():
 
 @app.route('/signup',methods=['GET','POST'])
 @cross_origin()
-def sigup():
+def signup():
   my_val=(json.loads(request.data.decode('utf-8')))
   if(db.signup.find_one({'email': my_val['email']})):
     n={
@@ -126,7 +122,6 @@ def paswword_change():
 @cross_origin()
 def isbn_display(isbn):
   my_val=db.books.find_one({"isbn":isbn})
-  print(my_val, isbn)
   return my_val
 
 @app.route('/admin',methods=['GET','POST'])
