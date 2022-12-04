@@ -66,42 +66,28 @@ const signup = (): JSX.Element => {
     }
     // Check if there are no errors
     if (Object.values(errors).every(x => x === null || x === '')) {
-      console.log('ALL CLEAR', JSON.stringify(formValues));
-      setFormValue({
-        name: '',
-        email: '',
-        password: '',
-        phone: '',
-        address: ''
-      });
       fetch('https://localhost:5000/signup', {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formValues)
       })
-        .then(res => console.log(res))
-        // .then(data => {
-        //   console.log('Success', data);
-        //   setFormValue({
-        //     name: '',
-        //     email: '',
-        //     password: '',
-        //     phone: '',
-        //     address: ''
-        //   });
-        // })
+        .then(res => {
+          console.log(res);
+          res.json();
+        })
+        .then(data => {
+          console.log('Success', data);
+          setFormValue({
+            name: '',
+            email: '',
+            password: '',
+            phone: '',
+            address: ''
+          });
+        })
         .catch(err => console.log(err));
     }
-    // fetch('http://localhost:5000/signup', {
-    //   method: 'POST',
-    //   mode: 'no-cors',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(formValues)
-    // })
-    //   .then(res => res.json())
-    //   .catch(err => console.log(err));
     console.log('ERRORS', errors);
     return errors;
   };
@@ -185,9 +171,7 @@ const signup = (): JSX.Element => {
                   handleChange(e);
                 }}
               />
-              <InputLabel className='text-sm text-red-500' shrink>
-                {formErrors.email}
-              </InputLabel>
+              <p className='text-sm text-red-500'>{formErrors.email}</p>
             </div>
             <div className='my-5'>
               <label htmlFor='phoneNumber' className='sr-only'>
