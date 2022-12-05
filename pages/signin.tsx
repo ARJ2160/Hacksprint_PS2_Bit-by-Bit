@@ -5,9 +5,8 @@ import signInSVG from '../assets/signin.svg';
 // import { signIn } from '../redux/signInSlice';
 import Image from 'next/image';
 import { Errors, formValues } from '../types';
-
-const EMAIL_REGEX =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import { Input } from '@mui/material';
+import { EMAIL_REGEX } from '../constants';
 
 const signin = (): JSX.Element => {
   // let navigate = useNavigate();
@@ -92,7 +91,7 @@ const signin = (): JSX.Element => {
                 <label htmlFor='email-address' className='sr-only'>
                   Email address
                 </label>
-                <input
+                <Input
                   id='email-address'
                   name='email'
                   type='email'
@@ -100,24 +99,23 @@ const signin = (): JSX.Element => {
                   required
                   className={`${
                     formErrors.email.length > 0
-                      ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                      : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                      ? 'input-style error-input'
+                      : 'input-style input'
                   }`}
                   placeholder='Email address'
                   value={formValues?.email}
-                  onChange={e => handleChange(e)}
+                  onChange={e => {
+                    formErrors.email = '';
+                    handleChange(e);
+                  }}
                 />
-                {formErrors.email.length > 0 && (
-                  <p className='text-sm text-red-500 mt-1'>
-                    {formErrors.email}
-                  </p>
-                )}
+                <p className='text-sm text-red-500'>{formErrors.email}</p>
               </div>
               <div className='mb-5'>
                 <label htmlFor='password' className='sr-only'>
                   Password
                 </label>
-                <input
+                <Input
                   id='password'
                   name='password'
                   type={`${
@@ -126,19 +124,18 @@ const signin = (): JSX.Element => {
                   autoComplete='current-password'
                   required
                   className={`${
-                    formErrors.email.length > 0
-                      ? 'border-red-500 relative block w-full appearance-none rounded-none rounded-t-md border px-3 py-2 text-red-500 placeholder-red-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                      : 'relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                    formErrors.password.length > 0
+                      ? 'input-style error-input'
+                      : 'input-style input'
                   }`}
                   placeholder='Password'
                   value={formValues?.password}
-                  onChange={e => handleChange(e)}
+                  onChange={e => {
+                    formErrors.password = '';
+                    handleChange(e);
+                  }}
                 />
-                {formErrors.password.length > 0 && (
-                  <p className='text-sm text-red-500 mt-1'>
-                    {formErrors.password}
-                  </p>
-                )}
+                <p className='text-sm text-red-500'>{formErrors.password}</p>
               </div>
             </div>
             <div className='flex items-center justify-between'>
@@ -161,9 +158,7 @@ const signin = (): JSX.Element => {
               <button
                 type='submit'
                 className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                onClick={e => {
-                  validate(e, formValues);
-                }}
+                onClick={e => setFormErrors(validate(e, formValues))}
               >
                 <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
                   <LockOpenIcon

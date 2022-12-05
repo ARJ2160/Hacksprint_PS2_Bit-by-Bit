@@ -7,7 +7,7 @@ const useFetch = (url: string) => {
 
   useEffect(() => {
     const abortContr = new AbortController();
-    fetch(url, { signal: abortContr.signal })
+    fetch(url, { signal: abortContr.signal, cache: 'force-cache' })
       .then(res => {
         if (!res.ok) {
           throw Error('Could not fetch the data');

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React from 'react';
-// import { ProjectCardProps } from '../../types/types';
 
 export const BookCard = ({ data, i }: any): JSX.Element => {
   return (
