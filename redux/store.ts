@@ -16,7 +16,8 @@ import rootReducer from './reducers';
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage
+  storage,
+  throttle: 500
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

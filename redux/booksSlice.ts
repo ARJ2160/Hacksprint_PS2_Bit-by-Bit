@@ -1,57 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { booksType } from '../types';
 
-const initialState: booksType[] = [
-  {
-    id: 0,
-    title: '',
-    ISBN: '',
-    pageCount: 0,
-    publishedDate: new Date(),
-    thumbnailUrl: '',
-    longDescription: '',
-    status: '',
-    authors: [],
-    categories: [],
-    price: 0
-  }
-];
+const initialState: booksType[] | any = [];
 
 const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
     storeBooks: (state, { payload }): any => {
-      const {
-        title,
-        isbn,
-        pageCount,
-        publishedDate,
-        thumbnailUrl,
-        longDescription,
-        status,
-        authors,
-        categories,
-        price
-      } = payload.formValues;
-      return [
-        ...state,
-        {
-          title,
-          isbn,
-          pageCount,
-          publishedDate,
-          thumbnailUrl,
-          longDescription,
-          status,
-          authors,
-          categories,
-          price
-        }
-      ];
+      console.log(payload);
+      // const {
+      //   title,
+      //   isbn,
+      //   pageCount,
+      //   publishedDate,
+      //   thumbnailUrl,
+      //   longDescription,
+      //   status,
+      //   authors,
+      //   categories,
+      //   price
+      // } = payload;
+      return [...state, ...payload];
+    },
+    clearResults: () => {
+      return initialState;
     }
   }
 });
 
-export const { storeBooks } = booksSlice.actions;
+export const { storeBooks, clearResults } = booksSlice.actions;
 export default booksSlice.reducer;
+export { initialState };

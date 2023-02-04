@@ -8,15 +8,13 @@ import Image from 'next/image';
 export const BookDesc = (): JSX.Element => {
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
   const [bookDesc, setBookDesc] = useState<any>();
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:5000/book/' + `${id}`)
+    fetch('https://library-flask-arj2160.vercel.app/book/' + `${id}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         setBookDesc(data);
       })
       .catch(err => console.log(err));

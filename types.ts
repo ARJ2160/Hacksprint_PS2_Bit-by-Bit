@@ -1,6 +1,6 @@
 export interface booksType {
-  id: number;
-  title: string;
+  id?: number;
+  title?: string;
   ISBN?: string;
   pageCount?: number;
   publishedDate?: Date;

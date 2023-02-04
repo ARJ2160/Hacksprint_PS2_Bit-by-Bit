@@ -11,8 +11,10 @@ const nextConfig = {
         pathname: '/s3.amazonaws.com/**'
       }
     ]
+  },
+  env: {
+    LIBRARY_BACKEND: 'https://library-flask-arj2160.vercel.app'
   }
-  // env: {}
 };
 
 module.exports = nextConfig;

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { LockOpenIcon } from '@heroicons/react/20/solid';
 import signInSVG from '../assets/signin.svg';
-// import { useDispatch } from 'react-redux';
-// import { signIn } from '../redux/signInSlice';
 import Image from 'next/image';
 import { Errors, formValues } from '../types';
 import { Input } from '@mui/material';
 import { EMAIL_REGEX } from '../constants';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../redux/signInSlice';
 
 const signin = (): JSX.Element => {
   // let navigate = useNavigate();
-  // let dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [formValues, setFormValue] = useState<formValues>({
     email: '',
     password: ''
@@ -43,14 +43,15 @@ const signin = (): JSX.Element => {
 
     // Check if there are no errors
     if (Object.values(errors).every(x => x === '')) {
-      fetch('/login', {
+      fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formValues)
+        body: JSON.stringify(formValues),
+        mode: 'no-cors'
       })
-        .then(res => res.json())
+        .then(res => console.log(res))
         .then(() => {
-          // dispatch(signIn({ formValues }));
+          dispatch(signIn({ formValues }));
           setFormValue({ email: '', password: '' });
           console.log('passed');
           // navigate('/');
