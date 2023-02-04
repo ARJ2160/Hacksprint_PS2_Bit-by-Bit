@@ -4,25 +4,28 @@ import { useRouter } from 'next/router';
 import { Box, Button, CircularProgress } from '@mui/material';
 // import Button from '@mui/joy/Button';
 import Image from 'next/image';
+import { Loader } from '../../components';
 
 export const BookDesc = (): JSX.Element => {
   const router = useRouter();
   const { id } = router.query;
-  const [bookDesc, setBookDesc] = useState<any>();
+  const [bookDesc, setBookDesc] = useState<any>(null);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    fetch('https://library-flask-arj2160.vercel.app/book/' + `${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setBookDesc(data);
-      })
-      .catch(err => console.log(err));
+    id &&
+      fetch(process.env.LIBRARY_BACKEND + '/book/' + `${id}`)
+        .then(res => res.json())
+        .then(data => {
+          setBookDesc(data);
+          console.log(data);
+        })
+        .catch(err => console.log(err));
   }, []);
 
-  if (bookDesc) {
-    return (
-      <section className='text-gray-700 overflow-hidden bg-white'>
+  return (
+    <section className='text-gray-700 overflow-hidden bg-white'>
+      {bookDesc ? (
         <div className='container px-5 py-24 mx-auto'>
           <div className='lg:w-4/5 mx-auto flex flex-wrap' key={bookDesc._id}>
             {/* <Image
@@ -164,15 +167,11 @@ export const BookDesc = (): JSX.Element => {
             </div>
           </div>
         </div>
-      </section>
-    );
-  } else {
-    return (
-      <Box className='h-screen flex justify-center items-center flex-column'>
-        <CircularProgress />
-      </Box>
-    );
-  }
+      ) : (
+        <Loader />
+      )}
+    </section>
+  );
 };
 
 export default BookDesc;

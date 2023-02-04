@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { data } from '../assets/data';
-import { BookCard } from '../components/index';
-import CircularProgress from '@mui/material/CircularProgress';
+import { BookCard, Loader } from '../components/index';
 import { useDispatch, useSelector } from 'react-redux';
-import booksSlice, { clearResults, storeBooks } from '../redux/booksSlice';
+import { clearResults, storeBooks } from '../redux/booksSlice';
 
 const Books = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -13,7 +12,7 @@ const Books = (): JSX.Element => {
   useEffect(() => {
     reduxBooks.length > 0
       ? setData(reduxBooks)
-      : fetch('https://library-flask-arj2160.vercel.app/books')
+      : fetch(process.env.LIBRARY_BACKEND + '/books')
           .then(res => res.json())
           .then(data => {
             setData(data);
@@ -35,9 +34,7 @@ const Books = (): JSX.Element => {
             return <BookCard data={x} key={i} />;
           })
         ) : (
-          <div className='flex justify-center items-center'>
-            <CircularProgress />
-          </div>
+          <Loader />
         )}
       </div>
     </div>

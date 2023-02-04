@@ -2,14 +2,13 @@ import { LockClosedIcon } from '@heroicons/react/20/solid';
 import { Input, InputLabel, TextareaAutosize } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import signUpSVG from '../assets/signup.svg';
-import { EMAIL_REGEX } from '../constants';
+import { useValidate } from '../hooks/useValidate';
 import { genericSignup } from '../types';
+const mode = 'signup';
 
 const signup = (): JSX.Element => {
-  // let navigate = useNavigate();
-
   const [formValues, setFormValue] = useState<genericSignup>({
     name: '',
     email: '',
@@ -34,69 +33,19 @@ const signup = (): JSX.Element => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     formValues: genericSignup
   ) => {
-    e.preventDefault();
-    const errors: genericSignup = {
-      name: '',
-      email: '',
-      password: '',
-      phone: '',
-      address: ''
-    };
-    console.log(formValues);
-    if (!formValues.email) {
-      errors.email = 'Email is Required';
-    } else if (!EMAIL_REGEX.test(formValues.email)) {
-      errors.email = 'Enter valid Email';
-    }
-    if (!formValues.name) {
-      errors.name = 'Name is Required';
-    }
-    if (formValues.phone.length < 10 || !parseInt(formValues.phone)) {
-      errors.phone = 'Phone Number is Invalid';
-    }
-    if (!formValues.phone) {
-      errors.phone = 'Phone Number is Required';
-    }
-    if (!formValues.password) {
-      errors.password = 'Password is Required';
-    }
-    if (!formValues.address) {
-      errors.address = 'Address is Required';
-    }
-    // Check if there are no errors
-    if (Object.values(errors).every(x => x === null || x === '')) {
-      fetch('https://localhost:5000/signup', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formValues)
-      })
-        .then(res => {
-          console.log(res);
-          res.json();
-        })
-        .then(data => {
-          console.log('Success', data);
-          setFormValue({
-            name: '',
-            email: '',
-            password: '',
-            phone: '',
-            address: ''
-          });
-        })
-        .catch(err => console.log(err));
-    }
-    console.log('ERRORS', errors);
-    return errors;
+    setFormErrors(useValidate({ e, formValues, mode }));
   };
 
-  const storeInSession = () => {
-    sessionStorage.setItem('name', formValues.name);
-    sessionStorage.setItem('email', formValues.email);
-    sessionStorage.setItem('phone', formValues.phone);
-    sessionStorage.setItem('address', formValues.address);
-  };
+  useEffect(() => {
+    console.log('FORM ERRORS =>', formErrors);
+  }, [formErrors]);
+
+  // const storeInSession = () => {
+  //   sessionStorage.setItem('name', formValues.name);
+  //   sessionStorage.setItem('email', formValues.email);
+  //   sessionStorage.setItem('phone', formValues.phone);
+  //   sessionStorage.setItem('address', formValues.address);
+  // };
 
   return (
     <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
@@ -110,7 +59,7 @@ const signup = (): JSX.Element => {
             alt='Sign Up'
           />
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
-            Sign up to your account
+            Sign up and register yourself for free
           </h2>
           <p className='mt-2 text-center text-sm text-gray-600'>
             Or{' '}
@@ -132,11 +81,8 @@ const signup = (): JSX.Element => {
                 type='name'
                 autoComplete='name'
                 required
-                className={`${
-                  formErrors.name.length > 0
-                    ? 'input-style error-input'
-                    : 'input-style input'
-                }`}
+                error={formErrors.name ? formErrors.name.length > 0 : false}
+                className='input-style input'
                 placeholder='Name'
                 value={formValues?.name}
                 onChange={e => {
@@ -144,9 +90,7 @@ const signup = (): JSX.Element => {
                   handleChange(e);
                 }}
               />
-              <InputLabel className='text-sm text-red-500' shrink>
-                {formErrors.name}
-              </InputLabel>
+              <p className='text-sm text-red-500'>{formErrors.name}</p>
             </div>
             <div className='my-5'>
               <label htmlFor='email-address' className='sr-only'>
@@ -194,9 +138,7 @@ const signup = (): JSX.Element => {
                   handleChange(e);
                 }}
               />
-              <InputLabel className='text-sm text-red-500' shrink>
-                {formErrors.password}
-              </InputLabel>
+              <p className='text-sm text-red-500'>{formErrors.password}</p>
             </div>
             <div className='my-5'>
               <label htmlFor='phoneNumber' className='sr-only'>
@@ -208,22 +150,16 @@ const signup = (): JSX.Element => {
                 type='string'
                 autoComplete='phone'
                 required
-                className={`${
-                  formErrors.phone.length > 0
-                    ? 'input-style error-input'
-                    : 'input-style input'
-                }`}
+                error={formErrors.phone ? formErrors.phone.length > 0 : false}
+                className='input-style input'
                 placeholder='Phone Number'
                 value={formValues?.phone}
                 onChange={e => {
-                  console.log(e);
                   formErrors.phone = '';
                   handleChange(e);
                 }}
               />
-              <InputLabel className='text-sm text-red-500' shrink>
-                {formErrors.phone}
-              </InputLabel>
+              <p className='text-sm text-red-500'>{formErrors.phone}</p>
             </div>
             <div className='my-5'>
               <label htmlFor='address' className='sr-only'>
@@ -234,6 +170,8 @@ const signup = (): JSX.Element => {
                 placeholder='Address'
                 required
                 autoComplete='address'
+                minRows={3}
+                minLength={10}
                 id='address'
                 name='address'
                 value={formValues?.address}
@@ -243,9 +181,7 @@ const signup = (): JSX.Element => {
                 }}
                 className='input-style'
               />
-              <InputLabel className='text-sm text-red-500' shrink>
-                {formErrors.address}
-              </InputLabel>
+              <p className='text-sm text-red-500'>{formErrors.address}</p>
             </div>
           </div>
           <div className='flex items-center justify-between'>
@@ -259,7 +195,7 @@ const signup = (): JSX.Element => {
               <label
                 htmlFor='remember-me'
                 className='ml-2 block text-sm text-gray-900'
-                onClick={storeInSession}
+                // onClick={storeInSession}
               >
                 Remember me
               </label>
@@ -278,7 +214,7 @@ const signup = (): JSX.Element => {
             <button
               type='submit'
               className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-              onClick={e => setFormErrors(validate(e, formValues))}
+              onClick={e => validate(e, formValues)}
             >
               <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
                 <LockClosedIcon

@@ -1,6 +1,7 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import { Input, InputLabel } from '@mui/material';
 import React, { useState } from 'react';
+import { EMAIL_REGEX } from '../constants';
 import { forgotPassword } from '../types';
 
 const forgotPass = () => {
@@ -28,11 +29,9 @@ const forgotPass = () => {
       phone: ''
     };
     console.log(formValues);
-    const regex =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!formValues.email) {
       errors.email = 'Email is Required';
-    } else if (!regex.test(formValues.email)) {
+    } else if (!EMAIL_REGEX.test(formValues.email)) {
       errors.email = 'Enter valid Email';
     }
     if (!formValues.phone) {

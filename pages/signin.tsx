@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LockOpenIcon } from '@heroicons/react/20/solid';
 import signInSVG from '../assets/signin.svg';
 import Image from 'next/image';
 import { Errors, formValues } from '../types';
-import { Input } from '@mui/material';
-import { EMAIL_REGEX } from '../constants';
-import { useDispatch } from 'react-redux';
-import { signIn } from '../redux/signInSlice';
+import { Checkbox, FormControlLabel, FormGroup, Input } from '@mui/material';
+import { useValidate } from '../hooks/useValidate';
+const mode = 'signin';
 
 const signin = (): JSX.Element => {
-  // let navigate = useNavigate();
-  const dispatch = useDispatch();
   const [formValues, setFormValue] = useState<formValues>({
     email: '',
-    password: ''
+    password: '',
+    rememberMe: false
   });
   const [formErrors, setFormErrors] = useState<Errors>({
     email: '',
@@ -28,40 +26,12 @@ const signin = (): JSX.Element => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     formValues: formValues
   ) => {
-    e.preventDefault();
-    const errors: Errors = { email: '', password: '' };
-
-    if (!formValues.email) {
-      errors.email = 'Email is Required';
-    } else if (!EMAIL_REGEX.test(formValues.email)) {
-      errors.email = 'Enter valid Email';
-    }
-    if (!formValues.password) {
-      errors.password = 'Password is Required';
-    }
-    console.log(formValues);
-
-    // Check if there are no errors
-    if (Object.values(errors).every(x => x === '')) {
-      fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formValues),
-        mode: 'no-cors'
-      })
-        .then(res => console.log(res))
-        .then(() => {
-          dispatch(signIn({ formValues }));
-          setFormValue({ email: '', password: '' });
-          console.log('passed');
-          // navigate('/');
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-    return errors;
+    setFormErrors(useValidate({ e, formValues, mode }));
   };
+
+  useEffect(() => {
+    console.log('FORM ERRORS =>', formErrors);
+  }, [formErrors]);
 
   return (
     <>
@@ -86,7 +56,6 @@ const signin = (): JSX.Element => {
             </p>
           </div>
           <form className='mt-8 space-y-6' action='#' method='POST'>
-            <input type='hidden' name='remember' defaultValue='true' />
             <div className='-space-y-px rounded-md shadow-sm'>
               <div className='mb-5'>
                 <label htmlFor='email-address' className='sr-only'>
@@ -140,26 +109,19 @@ const signin = (): JSX.Element => {
               </div>
             </div>
             <div className='flex items-center justify-between'>
-              <div className='flex items-center'>
-                <input
-                  id='remember-me'
-                  name='remember-me'
-                  type='checkbox'
-                  className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+              <FormGroup>
+                <FormControlLabel
+                  value={formValues?.rememberMe}
+                  control={<Checkbox defaultChecked />}
+                  label='Remember me'
                 />
-                <label
-                  htmlFor='remember-me'
-                  className='ml-2 block text-sm text-gray-900'
-                >
-                  Remember me
-                </label>
-              </div>
+              </FormGroup>
             </div>
             <div>
               <button
                 type='submit'
                 className='group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                onClick={e => setFormErrors(validate(e, formValues))}
+                onClick={e => validate(e, formValues)}
               >
                 <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
                   <LockOpenIcon

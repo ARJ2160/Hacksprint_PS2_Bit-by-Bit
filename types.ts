@@ -21,12 +21,24 @@ export interface Errors {
   password: string;
 }
 
-export interface formValues extends Errors {}
+export interface formValues extends genericSignup {}
 
 export interface genericSignup {
-  name: string;
+  name?: string;
   email: string;
   password: string;
-  phone: string;
-  address: string;
+  phone?: string;
+  address?: string;
+  rememberMe?: boolean;
+}
+
+export interface PaginationTypes {
+  length: number;
+}
+
+export interface useValidateProps {
+  e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
+  formValues: genericSignup;
+  mode: 'signin' | 'signup' | 'forgotPassword';
+  rememberMe?: boolean;
 }
